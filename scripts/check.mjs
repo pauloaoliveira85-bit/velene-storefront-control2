@@ -2,11 +2,13 @@ import { readFile } from "node:fs/promises";
 
 const required = [
   "index.html",
+  "netlify.toml",
   "src/app.js",
   "src/shopify.js",
   "src/tracking.js",
   "src/config.js",
   "src/styles.css",
+  "netlify/functions/shopify.js",
   "docs/QA_CHECKLIST.md",
   "docs/ROLLOUT.md",
   "docs/PARALLEL_INFRASTRUCTURE.md",

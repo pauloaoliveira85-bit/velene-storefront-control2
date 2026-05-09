@@ -23,6 +23,19 @@ Open:
 http://localhost:4173
 ```
 
+## Deploy on Netlify
+
+- Build command: leave empty.
+- Publish directory: `.`
+
+Netlify uses `/.netlify/functions/shopify` as the Shopify bridge. This keeps Shopify requests controlled by the staging project and avoids browser-side Storefront API failures.
+
+Optional Netlify environment variables:
+
+- `VELENE_SHOPIFY_DOMAIN`
+- `VELENE_SHOPIFY_API_VERSION`
+- `VELENE_SHOPIFY_STOREFRONT_TOKEN`
+
 ## Why This Exists
 
 The public site currently runs as a headless frontend. Shopify checkout events work, but frontend journey events on `maisonvelene.fr` were not confirmed:

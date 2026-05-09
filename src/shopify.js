@@ -3,18 +3,28 @@ import { config, shopifyEndpoint } from "./config.js";
 const CART_STORAGE_KEY = "velene_staging_cart_id";
 
 async function request(query, variables = {}) {
-  const response = await fetch(shopifyEndpoint, {
+  const endpoint = config.useShopifyProxy ? config.shopifyProxyEndpoint : shopifyEndpoint;
+  const headers = { "Content-Type": "application/json" };
+  if (!config.useShopifyProxy) {
+    headers["X-Shopify-Storefront-Access-Token"] = config.storefrontToken;
+  }
+
+  const response = await fetch(endpoint, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "X-Shopify-Storefront-Access-Token": config.storefrontToken,
-    },
+    headers,
     body: JSON.stringify({ query, variables }),
   });
 
-  const payload = await response.json();
+  let payload;
+  try {
+    payload = await response.json();
+  } catch {
+    throw new Error(`Shopify returned an invalid response (${response.status})`);
+  }
+
   if (!response.ok || payload.errors) {
-    throw new Error(payload.errors?.[0]?.message || `Shopify request failed (${response.status})`);
+    const message = payload.errors?.map((error) => error.message).join("; ") || payload.error || `Shopify request failed (${response.status})`;
+    throw new Error(message);
   }
   return payload.data;
 }

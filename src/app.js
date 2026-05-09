@@ -20,9 +20,15 @@ async function renderRoute() {
   renderShell("<div class='loader'>Chargement...</div>");
   const [, section, handle] = location.pathname.split("/");
   try {
-    if (section === "products" || section === "product") return renderProduct(handle);
-    if (section === "collections") return renderCollection(handle || "all");
-    return renderHome();
+    if (section === "products" || section === "product") {
+      await renderProduct(handle);
+      return;
+    }
+    if (section === "collections") {
+      await renderCollection(handle || "all");
+      return;
+    }
+    await renderHome();
   } catch (error) {
     renderShell(`<section class="notice"><h1>Erreur de chargement</h1><p>${escapeHtml(error.message)}</p></section>`);
   }
