@@ -39,6 +39,7 @@ const productFields = `
   featuredImage { url altText width height }
   images(first: 8) { edges { node { url altText width height } } }
   priceRange { minVariantPrice { amount currencyCode } maxVariantPrice { amount currencyCode } }
+  compareAtPriceRange { minVariantPrice { amount currencyCode } maxVariantPrice { amount currencyCode } }
   variants(first: 40) {
     edges {
       node {
@@ -47,6 +48,7 @@ const productFields = `
         availableForSale
         quantityAvailable
         price { amount currencyCode }
+        compareAtPrice { amount currencyCode }
         selectedOptions { name value }
         image { url altText width height }
       }
